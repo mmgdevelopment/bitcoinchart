@@ -3,12 +3,27 @@ let startDate;
 let endDate;
 let responseAsJSON;
 let myChart;
+const color1 = 'rgba(0,0,0,0.8)'
+const color2 = 'rgba(0,0,0,0.2)'
 
 function getYesterdayDate() {
     let date = new Date();
     date.setDate(date.getDate() - 1);
     let yesterday = date.toISOString();
     return yesterday.split('T')[0];
+}
+function getLastMonthDate() {
+    let date = new Date();
+    date.setDate(date.getDate() - 30);
+    let lastMonth = date.toISOString();
+    return lastMonth.split('T')[0];
+}
+
+function setDateFilter() {
+    document.getElementById('endDate').setAttribute('max', getYesterdayDate())
+    document.getElementById('endDate').setAttribute('value', getYesterdayDate())
+    document.getElementById('startDate').setAttribute('value', getLastMonthDate())
+
 }
 
 async function fetchData() {
@@ -74,14 +89,14 @@ let data = {
     datasets: [
         {
             label: 'Mittelwert',
-            backgroundColor: 'red',
-            borderColor: 'red',
+            backgroundColor: color1,
+            borderColor: color1,
             data: [],
             yAxisID: 'y',
         }, {
             label: 'Volumen',
-            backgroundColor: 'blue',
-            borderColor: 'blue',
+            backgroundColor: color2,
+            borderColor: color2,
             data: [],
             yAxisID: 'y1',
         }]
@@ -91,43 +106,46 @@ let data = {
 const config = {
     type: 'line',
     data: data,
+
     options: {
-        responsive: true,
-        stacked: false,
         interaction: {
             mode: 'index',
             intersect: false,
         },
+        responsive: true,
+        stacked: false,
         plugins: {
             title: {
                 display: true,
                 text: 'Bitcoin Kurs'
             }
         },
-    }, scales: {
-        y: {
-            type: 'linear',
-            display: true,
-            position: 'right',
-            grid: {
-                drawOnChartArea: false, // only want the grid lines for one axis to show up
+        scales: {
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                grid: {
+                    display: true,
+                },
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                grid: {
+                    display: false,
+                },
             },
         },
-        y1: {
-            type: 'linear',
-            display: true,
-            position: 'right',
+    }
+}
 
-            // grid line settings
-            grid: {
-                drawOnChartArea: false, // only want the grid lines for one axis to show up
-            },
-        },
-    },
-};
 
 
 function init() {
+    setDateFilter();
+    fetchData();
     myChart = new Chart(
         document.getElementById('myChart'),
         config
