@@ -3,8 +3,6 @@ let startDate;
 let endDate;
 let responseAsJSON;
 let myChart;
-labels = [];
-values = [];
 
 function getYesterdayDate() {
     let date = new Date();
