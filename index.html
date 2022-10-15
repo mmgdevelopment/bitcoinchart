@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin-Kurs</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body onload="init()">
+    <h1>Bitcoin Kurs</h1>
+    <div class="container">
+        <h2>Wähle ein Start und Enddatum</h2>
+        <div class="inputContainer">
+            <div class="input">
+                <span>Sartdatum:</span>
+                <input min="2014-05-01" value="2022-08-10" type="date" id="startDate">
+            </div>
+            <div class="input">
+                <span>Enddatum:</span>
+                <input max="2022-08-10" value="2022-08-10" type="date" id="endDate">
+            </div>
+            <button onclick="fetchData()">suchen</button>
+        </div>
+
+        <div id="chartContainer">
+            <canvas id="myChart"></canvas>
+        </div>
+        <table id="table">
+
+        </table>
+    </div>
+</body>
+
+</html>
