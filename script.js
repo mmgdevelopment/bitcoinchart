@@ -59,6 +59,10 @@ function render() {
         myChart.data.datasets[1].data.push(data[7]);
 
     }
+    myChart.data.labels.reverse();
+    myChart.data.datasets[0].data.reverse();
+    myChart.data.datasets[1].data.reverse();
+
     myChart.update();
 }
 //////////////////////Chart.js//////////////////////////

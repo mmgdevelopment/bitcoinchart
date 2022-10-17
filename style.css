@@ -11,7 +11,7 @@ input {
 }
 
 button {
-    height: 50px;
+    height: 20px;
     width: 200px;
     cursor: pointer;
 }
@@ -25,7 +25,8 @@ button {
 .inputContainer {
     display: flex;
     gap: 15px;
-    width: ;
+    width: 75%;
+    justify-content: center;
 }
 
 #chartContainer {
@@ -41,4 +42,5 @@ button {
     width: 75%;
     gap: 25px;
     margin-top: 25px;
+    justify-content: center;
 }
