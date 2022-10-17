@@ -6,28 +6,38 @@ let myChart;
 const color1 = 'rgba(0,0,0,0.8)'
 const color2 = 'rgba(0,0,0,0.2)'
 
-function getYesterdayDate() {
+// function getYesterdayDate() {
+//     let date = new Date();
+//     date.setDate(date.getDate() - 1);
+//     let yesterday = date.toISOString();
+//     return yesterday.split('T')[0];
+// }
+// function getLastMonthDate() {
+//     let date = new Date();
+//     date.setDate(date.getDate() - 30);
+//     let lastMonth = date.toISOString();
+//     return lastMonth.split('T')[0];
+// }
+function getDate(ofset) {
     let date = new Date();
-    date.setDate(date.getDate() - 1);
-    let yesterday = date.toISOString();
-    return yesterday.split('T')[0];
-}
-function getLastMonthDate() {
-    let date = new Date();
-    date.setDate(date.getDate() - 30);
-    let lastMonth = date.toISOString();
-    return lastMonth.split('T')[0];
+    date.setDate(date.getDate() - ofset);
+    let ofsetDate = date.toISOString();
+    return ofsetDate.split('T')[0];
 }
 
 function setDateFilter() {
-    document.getElementById('endDate').setAttribute('max', getYesterdayDate())
-    document.getElementById('endDate').setAttribute('value', getYesterdayDate())
-    document.getElementById('startDate').setAttribute('value', getLastMonthDate())
+    document.getElementById('endDate').setAttribute('max', getDate(1))
+    document.getElementById('endDate').setAttribute('value', getDate(1))
+    document.getElementById('startDate').setAttribute('value', getDate(30))
+}
 
+function getData(ofset) {
+    document.getElementById('startDate').setAttribute('value', getDate(ofset))
+    document.getElementById('endDate').setAttribute('value', getDate(1))
+    fetchData()
 }
 
 async function fetchData() {
-
     startDate = document.getElementById('startDate').value;
     endDate = document.getElementById('endDate').value;
     let url = `https://data.nasdaq.com/api/v3/datasets/BITFINEX/BTCUSD?start_date=${startDate}&end_date=${endDate}&api_key=${API_KEY}`;
@@ -36,43 +46,14 @@ async function fetchData() {
     render();
 }
 
+
+
 function render() {
-    renderHeadline();
-    renderData();
-}
-
-
-function renderHeadline() {
-    let table = document.getElementById('table');
-    table.innerHTML = `
-        <tr id="firstRow">
-        </tr>
-        `
-    for (let i = 0; i < 8; i++) {
-        document.getElementById('firstRow').innerHTML += `
-        <th>
-        ${responseAsJSON.dataset.column_names[i]}
-        </th>        
-        `;
-    }
-}
-
-function renderData() {
     myChart.data.labels = [];
     myChart.data.datasets[0].data = [];
-    let table = document.getElementById('table');
     let dataset = responseAsJSON.dataset.data;
     for (let i = 0; i < dataset.length; i++) {
-        table.innerHTML += `<tr id="row${i}" ></tr>`
         let data = dataset[i];
-        let index = i;
-        for (let i = 0; i < data.length; i++) {
-            let row = document.getElementById('row' + index);
-            row.innerHTML += `
-            <td>${data[i]}</td>
-            `;
-
-        }
         myChart.data.labels.push(data[0]);
         myChart.data.datasets[0].data.push(data[3]);
         myChart.data.datasets[1].data.push(data[7]);
@@ -93,12 +74,14 @@ let data = {
             borderColor: color1,
             data: [],
             yAxisID: 'y',
+            pointRadius: 0,
         }, {
             label: 'Volumen',
             backgroundColor: color2,
             borderColor: color2,
             data: [],
             yAxisID: 'y1',
+            pointRadius: 0,
         }]
 
 };

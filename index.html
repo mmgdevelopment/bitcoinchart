@@ -15,7 +15,6 @@
 <body onload="init()">
     <h1>Bitcoin Chart</h1>
     <div class="container">
-        <h2>Wähle ein Start und Enddatum</h2>
         <div class="inputContainer">
             <div class="input">
                 <span>Startdatum:</span>
@@ -27,12 +26,17 @@
             </div>
             <button onclick="fetchData()">suchen</button>
         </div>
-
+        <div class="buttonContainer">
+            <button onclick="getData(365)" id="year">Jahr</button>
+            <button onclick="getData(30)" id="month">Monat</button>
+            <button onclick="getData(7)" id="week">Woche</button>
+            <button onclick="getData(2)" id="day">Tag</button>
+        </div>
         <div id="chartContainer">
             <canvas id="myChart"></canvas>
         </div>
-        <table id="table">
 
+        <table id="table">
         </table>
     </div>
 </body>
